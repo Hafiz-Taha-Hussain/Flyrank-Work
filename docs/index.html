@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Which Content Should You Review First? A Grouped-Validation Study on Ranking Refresh Priority</title>
+<style>
+  :root {
+    --ink: #1a1d23;
+    --muted: #5b6270;
+    --accent: #2f5fb3;
+    --line: #e4e6eb;
+    --bg-soft: #f7f8fa;
+    --good: #2f7a4f;
+    --warn: #b3552f;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    line-height: 1.65;
+    background: #fff;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+  header.hero {
+    background: var(--bg-soft);
+    border-bottom: 1px solid var(--line);
+    padding: 56px 0 40px;
+  }
+  header.hero .kicker {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.78rem;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  h1 {
+    font-size: 2.05rem;
+    line-height: 1.25;
+    margin: 0 0 18px;
+    font-weight: 700;
+  }
+  .byline { color: var(--muted); font-size: 0.95rem; margin-bottom: 4px; }
+  .byline a { color: var(--accent); }
+  section { padding: 34px 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type { border-bottom: none; }
+  h2 {
+    font-size: 1.3rem;
+    margin: 0 0 16px;
+    padding-top: 4px;
+  }
+  h2 .num { color: var(--accent); font-variant-numeric: tabular-nums; margin-right: 8px; }
+  p { margin: 0 0 14px; }
+  ul, ol { margin: 0 0 14px; padding-left: 22px; }
+  li { margin-bottom: 6px; }
+  .abstract {
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 20px 22px;
+    font-size: 1.02rem;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 0.92rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--line);
+  }
+  th { color: var(--muted); font-weight: 600; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.03em; }
+  tr:last-child td { border-bottom: none; }
+  .figure { margin: 20px 0; }
+  .figure img { width: 100%; border: 1px solid var(--line); border-radius: 6px; }
+  .caption { font-size: 0.86rem; color: var(--muted); margin-top: 8px; }
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: var(--bg-soft);
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    margin: 16px 0;
+    font-size: 0.94rem;
+  }
+  .callout.warn { border-left-color: var(--warn); }
+  .callout.good { border-left-color: var(--good); }
+  code {
+    background: var(--bg-soft);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.88em;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+  }
+  pre {
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 16px;
+    overflow-x: auto;
+    font-size: 0.85rem;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  footer {
+    padding: 40px 0 60px;
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+  .tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-right: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .tag.observed { background: #e8f0fe; color: var(--accent); }
+  .tag.limit { background: #fdece5; color: var(--warn); }
+  @media (max-width: 600px) {
+    h1 { font-size: 1.6rem; }
+    header.hero { padding: 36px 0 28px; }
+    section { padding: 26px 0; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">FlyRank ML Engineering Internship — Capstone Research Paper</div>
+    <h1>Which Content Should You Review First? A Grouped-Validation Study on Ranking Refresh Priority</h1>
+    <div class="byline">By Hafiz Taha Hussain — BSCS, GIFT University</div>
+    <div class="byline">Repo: <a href="https://github.com/Hafiz-Taha-Hussain/Flyrank-Work">github.com/Hafiz-Taha-Hussain/Flyrank-Work</a></div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<section>
+  <h2><span class="num">§</span>Abstract</h2>
+  <div class="abstract">
+    <p>
+    Content teams need to know which pages to review first, but a simple "declining traffic"
+    rule flags too many pages to act on. This study asks whether a learned ranking can do
+    better than a transparent, hand-written rule at prioritizing 331,437 content pages from
+    FlyRank's production search-performance warehouse. Using March 2026 search and engagement
+    signals to predict an April click decline, a Random Forest ranking model reached a mean
+    precision@50 of 0.944 (5-fold, grouped by client) versus 0.520 for the rule-based
+    baseline and a 0.134 base rate. The result is directional and decision-support, not
+    causal: it identifies which pages are worth a human's attention first, not which pages a
+    refresh will fix. The output is delivered as a ranked action queue with reason codes,
+    human-review requirements, and an explicit no-go list for what should never be automated.
+    </p>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">1.</span>Introduction / Problem Statement</h2>
+  <p>
+  A content or SEO reviewer with limited weekly capacity cannot manually re-check every page
+  in a portfolio. The decision this work supports is narrow and concrete: <em>given a page's
+  recent performance, should a reviewer look at it this week, and if so, what should they
+  consider doing</em> — refresh it, support it, or simply monitor it. Getting this wrong has
+  an asymmetric cost. Missing a real decline on a high-demand page means lost visibility that
+  compounds the longer it goes unaddressed; flagging a healthy page for review costs a few
+  minutes of a reviewer's time. That asymmetry is why this study optimizes for
+  <strong>precision@K</strong> — of the top pages the ranking surfaces, how many actually
+  deserve review — rather than plain classification accuracy.
+  </p>
+</section>
+
+<section>
+  <h2><span class="num">2.</span>Data</h2>
+  <p>
+  This study uses the FlyRank ML Internship warehouse release, specifically the
+  <code>fact_content_daily_performance</code> table (page-day grain), accessed via a gated
+  Hugging Face dataset and queried directly with DuckDB — no data was downloaded in bulk.
+  </p>
+  <table>
+    <tr><th>Property</th><th>Value</th></tr>
+    <tr><td>Feature window</td><td>March 2026 (<code>month=2026-03</code>)</td></tr>
+    <tr><td>Label window</td><td>April 2026 (<code>month=2026-04</code>) — strictly after the feature window</td></tr>
+    <tr><td>Rows analyzed (one row = one page's March aggregate)</td><td>331,437</td></tr>
+    <tr><td>Rows with no search visibility in March (excluded from the action queue)</td><td>154,699 (46.7%)</td></tr>
+  </table>
+  <p><strong>Deliberately excluded, and why:</strong></p>
+  <ul>
+    <li><code>fact_content_daily_performance_sample</code> — this table is exactly June 2026,
+    the dataset's natural sealed test month for any past→future label. Using it to iterate on
+    label logic would silently defeat its purpose as a held-out check.</li>
+    <li>Pre-computed trend/decline columns from the warehouse — these are themselves derived
+    from a rule inside the same reporting window they'd be used to predict, which risks a
+    model learning the rule instead of the world.</li>
+    <li>GA4-derived columns on rows where the data-availability flag is not true — these are
+    zero-filled placeholders for "no data yet," not genuine zero-engagement observations.</li>
+  </ul>
+  <div class="callout">
+    <span class="tag observed">Public-safe</span> Only pseudonymized client and content
+    identifiers and aggregate counts appear anywhere in this work. No client names, URLs, or
+    raw search queries are shown at any point in the underlying notebooks or this page.
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">3.</span>Methodology</h2>
+  <p><strong>Label.</strong> <code>declined_in_april</code> = April clicks &lt; March clicks,
+  for the same page. This is a proxy for "this page lost ground," not a confirmed causal
+  outcome — and it is built strictly from a later time window than every feature, so no
+  feature can see the answer in advance.</p>
+  <p><strong>Features (9, all March-only).</strong> Impression-weighted average position,
+  impressions, clicks, click-through rate, GA4 sessions, engaged sessions, scroll events,
+  AI-referral sessions, and a GA4-data-availability flag.</p>
+  <p><strong>Baseline.</strong> A transparent, hand-written rule: for each page, compare
+  actual clicks to the expected clicks a typical page at the same search-position tier gets
+  (a tier baseline fit only on the training split), flagging pages losing more clicks than
+  their tier peers, restricted to pages with real search demand.</p>
+  <p><strong>Model.</strong> Logistic Regression first (a readable, coefficient-per-feature
+  baseline model), then Random Forest (300 trees, depth 8) — chosen because this is a
+  ranking question ("which pages first?"), evaluated at precision@50 rather than accuracy,
+  and because a manual review of the rule baseline's own top-ranked pages showed several
+  signals interacting in ways a single linear rule could not capture. Gradient Boosting was
+  deliberately not used this round, since the simpler comparison had not yet been shown to
+  need the extra complexity.</p>
+  <p><strong>Validation design.</strong> Every split in this study is grouped by client, never
+  a plain random row split. Pages from the same client share systematic factors — industry,
+  historical SEO investment, overall site quality — that a random split would let leak
+  between training and test data, letting a model partly memorize a client's pattern instead
+  of learning something that generalizes to a client it has never seen.</p>
+  <p><strong>Leakage checks.</strong> Earlier in this project, a column drawn from the same
+  window as the label was deliberately added as a feature to see what would happen: the
+  model's AUC jumped to a suspicious 1.000, up from an honest 0.944 without it. Removing that
+  column restored the honest score — a concrete, reproduced demonstration of why label-window
+  leakage is dangerous, not just a rule to follow on faith. The final feature set was checked
+  programmatically for label-derived or sibling columns, feature/label window overlap, and
+  any product-decision flags used as inputs; none were found.</p>
+</section>
+
+<section>
+  <h2><span class="num">4.</span>Results (vs. Baseline)</h2>
+  <p>
+  All numbers below are computed on the same held-out test rows, the same label, and the
+  same metric (precision@50) as the baseline — including recomputing the baseline's own tier
+  comparison using only the training split, so it gets exactly the same "don't peek at test
+  data" treatment as the models.
+  </p>
+  <table>
+    <tr><th>Method</th><th>Precision@50</th></tr>
+    <tr><td>Base rate (random ranking)</td><td>0.134</td></tr>
+    <tr><td>Rule-based baseline (transparent, hand-written)</td><td>0.520</td></tr>
+    <tr><td>Logistic Regression</td><td>0.800</td></tr>
+    <tr><td>Random Forest (single grouped split)</td><td>0.940</td></tr>
+    <tr><td>Random Forest (5-fold grouped mean)</td><td><strong>0.944</strong> (std 0.053, range 0.86–1.00)</td></tr>
+  </table>
+  <div class="figure">
+    <img src="model_comparison.png" alt="Bar chart comparing precision at 50 across the base rate, rule baseline, logistic regression, and random forest models">
+    <div class="caption">Figure 1 — Precision@50 by method, all evaluated on the same grouped-by-client test split. The Random Forest's advantage over the rule baseline holds across a 5-fold cross-validation, not just one lucky split.</div>
+  </div>
+  <div class="callout good">
+    <span class="tag observed">Observed</span> A random row split and the grouped-by-client
+    split produced nearly identical scores (0.940 vs. 0.940) for the Random Forest, suggesting
+    this result is not inflated by the model memorizing client-specific patterns — a
+    reassuring, if unexpected, finding given how much client-level variation exists elsewhere
+    in the data.
+  </div>
+  <p><strong>What the model leans on.</strong> Permutation importance ranks CTR, clicks, and
+  impressions as the top three features — all plausible drivers of a click-based decline
+  label, and none suspiciously dominant in a way that would suggest leakage.</p>
+  <p><strong>Where the model is wrong.</strong> Manual review of the model's false positives
+  found a consistent pattern: very low-volume pages, where a single click's difference swings
+  the click-through ratio dramatically, are the most common source of misranked pages — the
+  model is most confident, and most wrong, on pages with the thinnest evidence behind them.</p>
+</section>
+
+<section>
+  <h2><span class="num">5.</span>Limitations &amp; Honest Framing</h2>
+  <ul>
+    <li><span class="tag limit">Limit</span> <strong>Single month-pair.</strong> Trained and
+    validated on March→April 2026 only. The 5-fold spread (std ≈0.05, fold range 0.86–1.00)
+    shows real variability even within this one window; performance on a different season,
+    algorithm update, or client mix is untested.</li>
+    <li><span class="tag limit">Limit</span> <strong>Proxy label, not ground truth.</strong>
+    A click decline can reflect seasonality, an algorithm change, or an entire client's
+    portfolio moving together — not necessarily a fixable, page-specific content problem.</li>
+    <li><span class="tag limit">Limit</span> <strong>46.7% coverage gap.</strong> Nearly half
+    of March's pages have no search visibility at all and are excluded from the queue
+    entirely; this work has nothing to say about undiscovered or unindexed content.</li>
+    <li><span class="tag limit">Limit</span> <strong>No causal claim, anywhere.</strong> Every
+    result in this paper is observational. Nothing here claims that acting on a flagged page
+    will cause its metrics to recover — that would require a controlled experiment this study
+    does not run.</li>
+    <li><span class="tag limit">Limit</span> <strong>A known data-quality artifact.</strong>
+    Several of the highest-ranked baseline flags had an average search position under 1.0,
+    which is not possible for a genuine organic ranking — almost certainly a SERP feature
+    (an image pack or video carousel) being counted as if it were a normal result. A human
+    check is required before trusting any such flag.</li>
+  </ul>
+</section>
+
+<section>
+  <h2><span class="num">6.</span>Ranked Recommendations</h2>
+  <p>
+  The final model scores every page with an out-of-fold prediction (no page is ever scored
+  by a model that was trained on it), then assigns a reason code and a suggested action from
+  a small, interpretable rule set — not the raw score alone, since a bare number does not
+  tell a reviewer why a page was flagged.
+  </p>
+  <table>
+    <tr><th>Reason code</th><th>Condition</th><th>Suggested action</th></tr>
+    <tr><td><code>page_one_at_risk</code></td><td>Position 1–10, real demand, high model score</td><td>Protect and refresh</td></tr>
+    <tr><td><code>striking_distance_opportunity</code></td><td>Position 11–20, real demand, high model score</td><td>Support striking distance</td></tr>
+    <tr><td><code>visible_but_declining</code></td><td>Position 21–50, real demand, high model score</td><td>Review for refresh</td></tr>
+    <tr><td><code>low_demand_flagged</code></td><td>Weak demand, high model score</td><td>Monitor only</td></tr>
+    <tr><td><code>no_search_visibility</code></td><td>No position data</td><td>Not applicable — excluded</td></tr>
+  </table>
+  <ol>
+    <li><strong>Protect and refresh page-one-at-risk pages first</strong> — these already
+    hold visibility that took real work to earn; losing it is the most expensive failure
+    mode.</li>
+    <li><strong>Support striking-distance pages</strong> (positions 11–20) — the highest-ROI
+    zone, since a small position gain here tends to produce an outsized click gain.</li>
+    <li><strong>Review visible-but-declining pages</strong> for a standard content refresh.</li>
+    <li><strong>Monitor, don't actively review, low-demand flagged pages</strong> — these are
+    the most volatile in the false-positive analysis above.</li>
+    <li><strong>Leave the no-visibility segment (46.7% of pages) out of this workflow</strong>
+    — it needs an indexing or discovery fix, not a content-review queue.</li>
+  </ol>
+  <p><strong>Human review requirements before acting on any flagged page:</strong></p>
+  <ul>
+    <li>Check any page with an average position under 1.0 against the real SERP before
+    trusting the flag — likely a SERP-feature artifact, not a genuine ranking anomaly.</li>
+    <li>Check whether a flagged page's entire client portfolio moved together before assuming
+    a page-specific problem.</li>
+    <li>Never present a dollar or revenue estimate from this queue — no revenue data was used
+    anywhere in this study.</li>
+  </ul>
+  <div class="callout warn">
+    <span class="tag limit">No-go list — never automate</span>
+    Automatically publishing, editing, or unpublishing content from this queue; automatically
+    emailing clients from a flag; treating a suggested action as a guaranteed fix rather than
+    a hypothesis for a human to test; replacing manual SERP inspection for sub-1.0-position
+    flags.
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">7.</span>Reproducibility</h2>
+  <p>Every notebook referenced in this paper lives in the public repo below, with fixed random
+  seeds (<code>random_state=42</code> throughout — the splits, the Random Forest, and the
+  cross-validation) so re-running should reproduce the same tables.</p>
+  <ul>
+    <li>Repo: <a href="https://github.com/Hafiz-Taha-Hussain/Flyrank-Work">github.com/Hafiz-Taha-Hussain/Flyrank-Work</a></li>
+    <li>Data contract: <a href="https://github.com/Hafiz-Taha-Hussain/Flyrank-Work/blob/main/work/notebooks/w03_data_contract.ipynb">w03_data_contract.ipynb</a></li>
+    <li>Baseline: <a href="https://github.com/Hafiz-Taha-Hussain/Flyrank-Work/blob/main/work/notebooks/w04_baseline_score.ipynb">w04_baseline_score.ipynb</a></li>
+    <li>Model: <a href="https://github.com/Hafiz-Taha-Hussain/Flyrank-Work/blob/main/work/notebooks/w05_model.ipynb">w05_model.ipynb</a></li>
+    <li>Validation &amp; leakage audit: <a href="https://github.com/Hafiz-Taha-Hussain/Flyrank-Work/blob/main/work/notebooks/w06_validation_audit.ipynb">w06_validation_audit.ipynb</a></li>
+    <li>Action playbook: <a href="https://github.com/Hafiz-Taha-Hussain/Flyrank-Work/blob/main/work/notebooks/w07_action_playbook.ipynb">w07_action_playbook.ipynb</a></li>
+    <li>This paper's own consolidated notebook: <a href="https://github.com/Hafiz-Taha-Hussain/Flyrank-Work/blob/main/work/notebooks/capstone.ipynb">capstone.ipynb</a></li>
+  </ul>
+</section>
+
+<section>
+  <h2><span class="num">§</span>Acknowledgments &amp; Data Credit</h2>
+  <p>
+  Built on the FlyRank ML Internship dataset — <a href="https://flyrank.ai">flyrank.ai</a>.
+  </p>
+</section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>Hafiz Taha Hussain — BSCS, GIFT University, Gujranwala. FlyRank ML Engineering
+    Internship, Summer 2026.</p>
+  </div>
+</footer>
+
+</body>
+</html>
